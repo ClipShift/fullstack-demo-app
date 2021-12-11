@@ -1,0 +1,25 @@
+.justify-content-between {
+    margin: 10px;
+}
+
+.textBox {
+    width: 300px;
+}
+
+select {
+    width: 150px;
+    height: 30px;
+    color: black;
+}
+select:invalid {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-around;
+}
+
+input[type=number]{
+    -moz-appearance: textfield;
+}
