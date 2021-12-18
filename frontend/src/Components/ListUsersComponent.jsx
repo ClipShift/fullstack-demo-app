@@ -14,8 +14,12 @@ function ListUsersComponent() {
     }, []);
 
     const createUser = () => {
-        navigate("/createUser");
+        navigate("/createUser/_add");
     };
+
+    let handleView = id => {
+        navigate("/viewUser/" + id)
+    }
 
     return (
         <div className="container outerDiv">
@@ -43,7 +47,7 @@ function ListUsersComponent() {
                                     <td>{user.email}</td>
                                     <td>{user.technology}</td>
                                     <td>
-                                        <button class="btn btn-secondary">
+                                        <button class="btn btn-secondary" onClick={() => handleView(user.id)}>
                                             View
                                         </button>
                                         <button class="btn btn-warning">

@@ -9,4 +9,10 @@ export class UserService {
     createUser(user){
         return axios.post(USER_LIST_API, user)
     }
+    viewUser(id){
+        return axios.get(USER_LIST_API + "/" + id)
+    }
+    editUser(id){
+        return axios.put(USER_LIST_API, + "/" + id)
+    }
 }

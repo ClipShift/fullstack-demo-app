@@ -1,10 +1,13 @@
-import React, { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "../Css/ListUserComp.css";
 import { UserService } from "../Services/UserService";
 
 function CreateUserComponent() {
     const navigate = useNavigate();
+    const params = useParams();
+    const userService = new UserService();
+    const [user, setUser] = useState({});
 
     const formRef = useRef(null)
     const firstName = useRef(null)
@@ -19,14 +22,63 @@ function CreateUserComponent() {
     const inviteLink = useRef(null)
     const assignedInterviewer = useRef(null)
 
+    useEffect(() => {
+        userService.viewUser(params.createId)
+        .then(res => setUser({...res.data}))
+    }, []);
+
+    const [firstname, setFirstname] = useState();
+
+   
+
+    // const handleClick = (e) => {
+    //     e.preventDefault();
+    //     if(params.createId === "_add"){
+    //         handleAdd(e);
+    //     }
+    //     else{
+    //         handleEdit(e);
+    //     }
+
+    // }
+
+    // const handleEdit = (e) => {
+        // firstName.current.value = user.firstName
+        // lastName.current.value = user.lastName
+        // technology.current.value = user.technology
+        // email.current.value = user.email
+        // age.current.value = user.age
+        // experience.current.value = user.experience
+        // lastCtc.current.value = user.lastCtc
+        // expectedCtc.current.value = user.expectedCtc
+        // lastCompany.current.value = user.lastCompany
+        // inviteLink.current.value = user.inviteLink
+        // assignedInterviewer.current.value = user.assignedInterviewer
+    // }
+
     const handleAdd = (e) => {
         e.preventDefault();
         let form = document.getElementById('formId')
         let valid = form.checkValidity();
         form.reportValidity()
         
+        if(params.createId == "_add"){
+            setFirstname(user.firstName)
+            firstName.current.value = firstname
+            lastName.current.value = user.lastName
+            technology.current.value = user.technology
+            email.current.value = user.email
+            age.current.value = user.age
+            experience.current.value = user.experience
+            lastCtc.current.value = user.lastCtc
+            expectedCtc.current.value = user.expectedCtc
+            lastCompany.current.value = user.lastCompany
+            inviteLink.current.value = user.inviteLink
+            assignedInterviewer.current.value = user.assignedInterviewer
+        }
+
         if(valid){
-            let user =   {
+            let user1 =   {
                 "firstName": firstName.current.value,
                 "lastName": lastName.current.value,
                 "technology": technology.current.value,
@@ -39,10 +91,15 @@ function CreateUserComponent() {
                 "inviteLink": inviteLink.current.value,
                 "assignedInterviewer":assignedInterviewer.current.value
               }
-            const userService = new UserService();
-            userService.createUser(user).then(res => {
-                navigate("/users")
-            })
+            if(params.createId == "_add"){
+                userService.editUser(user1).then(res => {
+                    navigate("/users")
+                })
+            }else{
+                userService.createUser(user1).then(res => {
+                    navigate("/users")
+                })
+            }
         }
         else{
             console.log("Enter correct details")
@@ -72,6 +129,7 @@ function CreateUserComponent() {
                                         placeholder="First Name"
                                         pattern="[A-Za-z]*"
                                         title="Names cannot contain numbers"
+                                        value = {firstname}
                                         required
                                     />
                                 </div>

@@ -1,0 +1,11 @@
+.userInfo{
+    display: flex;
+    justify-content: space-between;
+}
+.viewContainer{
+    display: flex;
+    width: 100vw;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+}
